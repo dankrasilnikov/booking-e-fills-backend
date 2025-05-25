@@ -34,12 +34,18 @@ public class SupabaseAuthService {
     }
 
 public Mono<String> registerUser(String email, String password, String username) {
+    if (email == null || email.isBlank() ||
+            password == null || password.isBlank() ||
+            username == null || username.isBlank()) {
+        return Mono.error(new IllegalArgumentException("Email, password, and username must not be empty"));
+    }
     return Mono.fromCallable(() -> {
                 Optional<User> existingUser = userRepository.findByEmail(email);
                 if (existingUser.isPresent()) {
                     throw new RuntimeException("User with this email already exists");
                 }
                 return null;
+
             })
             .then(
                     webClient.post()
