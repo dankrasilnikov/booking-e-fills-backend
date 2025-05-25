@@ -29,25 +29,16 @@ public class UserController {
     SupabaseAuthService authService;
 
     @GetMapping("/profile")
-    public ResponseEntity<Map<String, String>> getUserProfileByUsername(@RequestParam("username") String username) {
+    public ResponseEntity<Map<String, String>> getUserProfileBySupabaseId(
+            @RequestParam("supabaseId") String supabaseId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Jwt jwt = (Jwt) authentication.getPrincipal();
-        String supabaseId = jwt.getClaimAsString("sub");
-        Optional<User> optionalUser = userRepository.findByUsername(username);
-        if (optionalUser.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        if (!optionalUser.get().getSupabaseId().equals(supabaseId)) {
+        String requesterSupabaseId = jwt.getClaimAsString("sub");
+
+        if (!supabaseId.equals(requesterSupabaseId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        return userRepository.findBySupabaseId(supabaseId)
-                .map(user -> {
-                    Map<String, String> response = new HashMap<>();
-                    response.put("username", user.getUsername());
-                    response.put("role", user.getRole().name());
-                    return ResponseEntity.ok(response);
-                })
-                .orElse(ResponseEntity.notFound().build());
+        return userService.getUserProfileIfAuthorized(supabaseId);
     }
     @PostMapping("/profile/changepass")
     public Mono<ResponseEntity<String>> changePassword(
