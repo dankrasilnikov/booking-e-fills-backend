@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 
 @Entity
@@ -19,8 +20,8 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY) private User user;
     @ManyToOne(fetch = FetchType.LAZY) private Connector connector;
-
-    /** Диапазон времени [start, end) – PostgreSQL tstzrange */
+    @Column(nullable = false, unique = true, updatable = false)
+    private UUID uuid = UUID.randomUUID();
     @Type(PostgreSQLRangeType.class)
     @Column(columnDefinition = "tstzrange", nullable = false)
     private Range<ZonedDateTime> period;
@@ -65,6 +66,10 @@ public class Reservation {
 
     public ReservationStatus getStatus() {
         return status;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public void setStatus(ReservationStatus status) {

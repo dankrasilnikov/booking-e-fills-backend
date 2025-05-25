@@ -4,22 +4,26 @@ import com.vladmihalcea.hibernate.type.range.Range;
 import com.zephyra.station.models.Reservation;
 
 import java.time.*;
+import java.util.UUID;
 
 public class ReservationDTO {
     private Long id;
-    private String title;      // название станции
-    private Integer seqNum;    // номер коннектора
-    private Long start;        // timestamp начала (в секундах)
-    private Duration duration; // длительность
+    private UUID uuid;
+    private String title;
+    private Integer seqNum;
+    private Long start;
+    private Duration duration;
 
     public ReservationDTO() {}
 
-    public ReservationDTO(String title, Integer seqNum, Long start, Duration duration, Long id) {
+    public ReservationDTO(String title, Integer seqNum, Long start,
+                          Duration duration, Long id, UUID uuid) {
         this.title = title;
         this.seqNum = seqNum;
         this.start = start;
         this.duration = duration;
         this.id = id;
+        this.uuid = uuid;
     }
 
     public static ReservationDTO from(Reservation reservation) {
@@ -34,7 +38,8 @@ public class ReservationDTO {
                 reservation.getConnector().getSeqNum(),
                 start.toInstant().getEpochSecond(),
                 duration,
-                reservation.getId()
+                reservation.getId(),
+                reservation.getUuid()
         );
     }
 
@@ -56,6 +61,10 @@ public class ReservationDTO {
 
     public Long getStart() {
         return start;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public void setStart(Long start) {
