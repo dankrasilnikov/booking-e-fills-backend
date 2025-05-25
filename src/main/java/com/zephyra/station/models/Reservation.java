@@ -15,13 +15,14 @@ import java.util.UUID;
 @Table(name = "reservation")
 public class Reservation {
 
-    @Id @GeneratedValue
-    private Long id;
+    @Id
+    @GeneratedValue
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID uuid;
 
     @ManyToOne(fetch = FetchType.LAZY) private User user;
     @ManyToOne(fetch = FetchType.LAZY) private Connector connector;
-    @Column(nullable = false, unique = true, updatable = false)
-    private UUID uuid = UUID.randomUUID();
+
     @Type(PostgreSQLRangeType.class)
     @Column(columnDefinition = "tstzrange", nullable = false)
     private Range<ZonedDateTime> period;
@@ -32,13 +33,6 @@ public class Reservation {
 
     public Reservation() {}
 
-    public Reservation(Long id, User user, Connector connector, Range<ZonedDateTime> period, ReservationStatus status) {
-        this.id = id;
-        this.user = user;
-        this.connector = connector;
-        this.period = period;
-        this.status = status;
-    }
 
     public User getUser() {
         return user;
@@ -74,14 +68,6 @@ public class Reservation {
 
     public void setStatus(ReservationStatus status) {
         this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 }

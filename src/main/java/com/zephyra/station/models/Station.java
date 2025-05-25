@@ -13,9 +13,11 @@ public class Station {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private Double latitude;
+    @Column(nullable = false)
     private Double longitude;
     private boolean active = true;
     @OneToMany(mappedBy = "station", cascade = CascadeType.ALL, orphanRemoval = true)

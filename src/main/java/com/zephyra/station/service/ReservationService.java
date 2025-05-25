@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.*;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,8 +82,8 @@ public class ReservationService {
     }
 
     @Transactional
-    public void cancelReservation(Long reservationId, String supabaseId) {
-        Reservation reservation = reservationRepo.findById(reservationId)
+    public void cancelReservation(UUID reservationUuid, String supabaseId) {
+        Reservation reservation = reservationRepo.findById(reservationUuid)
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation not found"));
 
         if (!reservation.getUser().getSupabaseId().equals(supabaseId)) {

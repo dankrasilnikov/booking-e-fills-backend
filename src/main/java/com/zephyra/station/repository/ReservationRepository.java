@@ -12,8 +12,10 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.UUID;
+
 @Repository
-public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+public interface ReservationRepository extends JpaRepository<Reservation, UUID> {
     List<Reservation> findAllByUser(User user);
     @Modifying
     @Query(value = "DELETE FROM reservation WHERE upper(period) < :now", nativeQuery = true)

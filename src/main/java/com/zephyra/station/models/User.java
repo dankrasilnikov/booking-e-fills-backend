@@ -1,5 +1,6 @@
 package com.zephyra.station.models;
 
+import com.sun.istack.NotNull;
 import jakarta.persistence.*;
 
 
@@ -18,7 +19,9 @@ public class User {
     private long id;
     @Column(name = "supabase_id", unique = true)
     private String supabaseId;
+    @Column(nullable = false)
     private String username;
+    @Column(nullable = false)
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role = Role.ADMIN;  ///!!!!!!!!!!!!!!!!!!!!!!!

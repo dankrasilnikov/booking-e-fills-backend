@@ -7,28 +7,25 @@ import java.time.*;
 import java.util.UUID;
 
 public class ReservationDTO {
-    private Long id;
-    private UUID uuid;
     private String title;
     private Integer seqNum;
     private Long start;
     private Duration duration;
+    private UUID uuid;
 
     public ReservationDTO() {}
 
     public ReservationDTO(String title, Integer seqNum, Long start,
-                          Duration duration, Long id, UUID uuid) {
+                          Duration duration, UUID uuid) {
         this.title = title;
         this.seqNum = seqNum;
         this.start = start;
         this.duration = duration;
-        this.id = id;
         this.uuid = uuid;
     }
 
     public static ReservationDTO from(Reservation reservation) {
         Range<ZonedDateTime> period = reservation.getPeriod();
-
         ZonedDateTime start = period.lower();
         ZonedDateTime end = period.upper();
         Duration duration = Duration.between(start, end);
@@ -38,7 +35,6 @@ public class ReservationDTO {
                 reservation.getConnector().getSeqNum(),
                 start.toInstant().getEpochSecond(),
                 duration,
-                reservation.getId(),
                 reservation.getUuid()
         );
     }
@@ -75,13 +71,6 @@ public class ReservationDTO {
         return duration;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public void setDuration(Duration duration) {
         this.duration = duration;
