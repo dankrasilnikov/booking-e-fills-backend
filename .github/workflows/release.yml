@@ -2,10 +2,8 @@ name: Build & Push Docker Image
 
 on:
   push:
-    # Будет срабатывать на пуш в ветку main
     branches:
       - main
-    # и по-прежнему — на пуш тэгов vX.Y.Z (если хотите одновременно поддерживать релизы)
     tags:
       - 'v*.*.*'
 

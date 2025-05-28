@@ -1,4 +1,4 @@
-FROM maven:3.9.6-openjdk-24-slim AS builder
+FROM eclipse-temurin:24-jdk-bullseye-slim AS builder
 
 WORKDIR /workspace
 
