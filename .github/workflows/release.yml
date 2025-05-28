@@ -39,7 +39,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            # образ на каждое коммит-SHA (чтобы можно было откатиться к любой версии)
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/station:${{ github.sha }}
-            # и всегда актуальный latest
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/station:latest
