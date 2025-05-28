@@ -1,4 +1,4 @@
-FROM eclipse-temurin:24-jdk-bullseye-slim AS builder
+FROM eclipse-temurin:24-jdk AS builder
 
 WORKDIR /workspace
 
